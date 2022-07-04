@@ -5,7 +5,6 @@ import { App } from './App';
 
 import 'antd/dist/antd.css';
 import './styles/index.less';
-import './styles/override-antd.less';
 
 ReactDOM.createRoot(document.getElementById('root') as Element).render(
   <React.StrictMode>

@@ -1,5 +1,6 @@
 import { SearchOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { Button, Input, Typography } from 'antd';
+import { Link } from 'react-router-dom';
 
 const menu = [
   { icon: 'phone', text: 'Điện thoại' },
@@ -16,9 +17,9 @@ export function TopHeader() {
     <div className="bg-[#ffd400] h-[114px]">
       <div className="container">
         <div className="h-[50px] flex items-end justify-between">
-          <div>
+          <Link to="/">
             <img className="h-[40px] w-[228px]" src="/images/logo.png" />
-          </div>
+          </Link>
 
           <Input
             className="w-[300px] h-[40px] border-none rounded"
@@ -30,10 +31,12 @@ export function TopHeader() {
             <Button className="bg-[#ffac0a] border-none rounded h-10">
               Lịch sử đơn hàng
             </Button>
-            <Button className="bg-[#ffac0a] border-none rounded h-10 flex items-center gap-2">
-              <ShoppingCartOutlined className="text-xl" />
-              <Typography>Giỏ hàng</Typography>
-            </Button>
+            <Link to="/cart">
+              <Button className="bg-[#ffac0a] border-none rounded h-10 flex items-center gap-2">
+                <ShoppingCartOutlined className="text-xl" />
+                <Typography>Giỏ hàng</Typography>
+              </Button>
+            </Link>
           </div>
         </div>
 

@@ -3,6 +3,7 @@ import { Typography } from 'antd';
 import Carousel, { CarouselRef } from 'antd/lib/carousel';
 import { padStart, sampleSize } from 'lodash';
 import { useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { HeroBanner } from '../components/HeroBanner';
 import { HeroCarousel } from '../components/HeroCarousel';
 import { TopBanner } from '../components/TopBanner';
@@ -224,24 +225,26 @@ export function Home() {
         </div>
 
         <div className="grid grid-cols-5 gap-4 ">
-          {sampleProducts.map(product => (
-            <div
-              key={product.name}
-              className="bg-white rounded-md p-[10px] flex flex-col"
-            >
-              <img className="block mb-4 aspect-square" src={product.imgUrl} />
-              <span className="block mb-3 grow">{product.name}</span>
-              <div className="flex items-center gap-2">
-                <span className="text-lg font-bold text-red-600">
-                  {product.price}
-                </span>
-                {product.discount && (
-                  <span className="block px-1 font-bold text-red-500 bg-red-100 rounded">
-                    {product.discount}
+          {sampleProducts.map((product, idx) => (
+            <Link key={idx} to="/product-detail">
+              <div className="bg-white rounded-md p-[10px] h-full flex flex-col">
+                <img
+                  className="block mb-4 aspect-square"
+                  src={product.imgUrl}
+                />
+                <span className="block mb-3 grow">{product.name}</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-lg font-bold text-red-600">
+                    {product.price}
                   </span>
-                )}
+                  {product.discount && (
+                    <span className="block px-1 font-bold text-red-500 bg-red-100 rounded">
+                      {product.discount}
+                    </span>
+                  )}
+                </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
