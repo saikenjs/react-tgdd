@@ -5,6 +5,7 @@ import { padStart, sampleSize } from 'lodash';
 import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { HeroBanner } from '../components/HeroBanner';
+import { HeroCarousel } from '../components/HeroCarousel';
 import BaseLayout from '../layouts/BaseLayout';
 import { products } from './data';
 
@@ -82,7 +83,7 @@ export function Home() {
   return (
     <BaseLayout>
       <HeroBanner />
-
+      <HeroCarousel />
       {/* Trending Section */}
       <div className="container p-6 my-8 bg-gradient-to-r from-[#ffecd2] to-[#fcb69f] rounded-xl">
         <Typography.Title level={4} className="uppercase">
