@@ -4,10 +4,7 @@ import Carousel, { CarouselRef } from 'antd/lib/carousel';
 import { padStart, sampleSize } from 'lodash';
 import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { HeroBanner } from '../components/HeroBanner';
-import { HeroCarousel } from '../components/HeroCarousel';
-import { TopBanner } from '../components/TopBanner';
-import { TopHeader } from '../components/TopHeader';
+import BaseLayout from '../layouts/BaseLayout';
 import { products } from './data';
 
 const trendings = [
@@ -82,12 +79,7 @@ export function Home() {
   const sampleProducts = sampleSize(products, 20);
 
   return (
-    <div className="bg-[#f3f3f3]">
-      <TopBanner />
-      <TopHeader />
-      <HeroBanner />
-      <HeroCarousel />
-
+    <BaseLayout>
       {/* Trending Section */}
       <div className="container p-6 my-8 bg-gradient-to-r from-[#ffecd2] to-[#fcb69f] rounded-xl">
         <Typography.Title level={4} className="uppercase">
@@ -248,10 +240,6 @@ export function Home() {
           ))}
         </div>
       </section>
-
-      <footer className="flex items-center justify-center h-40 mt-12 bg-white border-t">
-        <span className="text-xl">Thegioididong</span>
-      </footer>
-    </div>
+    </BaseLayout>
   );
 }

@@ -1,6 +1,6 @@
 import { RouteObject, useRoutes, Navigate } from 'react-router-dom';
 import CartPage from './pages/CartPage';
-import { Home } from './pages/Home';
+import { Home } from './pages/HomePage';
 import ProductDetailPage from './pages/ProductDetailPage';
 
 const routes: RouteObject[] = [
