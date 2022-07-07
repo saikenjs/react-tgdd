@@ -13,7 +13,7 @@ export default function BaseLayout({ children }: Props) {
 
   return (
     <div className="bg-[#f3f3f3] relative">
-      <div className="container sticky top-0 border border-red-600">
+      <div className="container sticky top-0">
         {scrollPosition > 500 && (
           <>
             <img
