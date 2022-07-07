@@ -1,6 +1,5 @@
 import { Typography } from 'antd';
 import { ReactNode } from 'react';
-import { HeroBanner } from '../components/HeroBanner';
 import { TopBanner } from '../components/TopBanner';
 import { TopHeader } from '../components/TopHeader';
 import { useScrollPosition } from '../hooks/useScrollPosition';
@@ -30,7 +29,7 @@ export default function BaseLayout({ children }: Props) {
       </div>
       <TopBanner />
       <TopHeader />
-      <HeroBanner />
+
       {children}
 
       <footer className="pt-4 mt-12 bg-white border-t">

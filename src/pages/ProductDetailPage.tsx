@@ -4,15 +4,12 @@ import {
   SafetyOutlined,
 } from '@ant-design/icons';
 import { Divider, Rate, Select, Tag, Typography } from 'antd';
-import { TopBanner } from '../components/TopBanner';
-import { TopHeader } from '../components/TopHeader';
+
+import BaseLayout from '../layouts/BaseLayout';
 
 export default function ProductDetailPage() {
   return (
-    <div>
-      <TopBanner />
-      <TopHeader />
-
+    <BaseLayout>
       <div className="container pt-6">
         <Typography.Title level={4}>
           Điện thoại iPhone 13 Pro Max 128GB
@@ -148,6 +145,6 @@ export default function ProductDetailPage() {
           </button>
         </div>
       </div>
-    </div>
+    </BaseLayout>
   );
 }
