@@ -1,13 +1,15 @@
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { Typography } from 'antd';
 import Carousel, { CarouselRef } from 'antd/lib/carousel';
-import { padStart, sampleSize } from 'lodash';
-import { useRef, useState } from 'react';
+import { capitalize, padStart, sampleSize } from 'lodash';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { api } from '../api';
 import { HeroBanner } from '../components/HeroBanner';
 import { HeroCarousel } from '../components/HeroCarousel';
 import BaseLayout from '../layouts/BaseLayout';
-import { products } from './data';
+import { productsAtom } from '../recoil/atoms/ProductsAtom';
 
 const trendings = [
   { title: 'Điện thoại', description: 'Galaxy M Series' },
@@ -77,8 +79,19 @@ const tabs = ['Cho bạn', 'Sinh nhật 18', 'Chỉ giảm online', 'Deal từ 9
 export function Home() {
   const carouselRef = useRef<CarouselRef>(null);
 
+  const [products, setProducts] = useRecoilState(productsAtom);
+
   const [activeCategory, setActiveCategory] = useState(0);
   const sampleProducts = sampleSize(products, 20);
+
+  useEffect(() => {
+    api
+      .get('/product')
+      .then(({ data }) => setProducts(data))
+      .catch(err => {
+        throw new Error(err);
+      });
+  }, [setProducts]);
 
   return (
     <BaseLayout>
@@ -224,18 +237,20 @@ export function Home() {
           {sampleProducts.map((product, idx) => (
             <Link key={idx} to="/product-detail">
               <div className="bg-white rounded-md p-[10px] h-full flex flex-col">
-                <img
-                  className="block mb-4 aspect-square"
-                  src={product.imgUrl}
-                />
-                <span className="block mb-3 grow">{product.name}</span>
+                <img className="block mb-4 aspect-square" src={product.image} />
+                <span className="block my-3 text-lg grow">
+                  {capitalize(product.productName)}
+                </span>
                 <div className="flex items-center gap-2">
                   <span className="text-lg font-bold text-red-600">
-                    {product.price}
+                    {product.unitPrice.toLocaleString('vi-VN', {
+                      style: 'currency',
+                      currency: 'VND',
+                    })}
                   </span>
-                  {product.discount && (
+                  {product.salePrice !== 0 && (
                     <span className="block px-1 font-bold text-red-500 bg-red-100 rounded">
-                      {product.discount}
+                      -{product.salePrice}%
                     </span>
                   )}
                 </div>
