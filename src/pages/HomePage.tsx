@@ -1,13 +1,14 @@
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { Typography } from 'antd';
 import Carousel, { CarouselRef } from 'antd/lib/carousel';
-import { capitalize, padStart, sampleSize } from 'lodash';
+import { padStart, sampleSize } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { api } from '../api';
 import { HeroBanner } from '../components/HeroBanner';
 import { HeroCarousel } from '../components/HeroCarousel';
+import { ProductCard } from '../components/ProductCard';
+import { ProductSkeleton } from '../components/skeleton/ProductSkeleton';
 import BaseLayout from '../layouts/BaseLayout';
 import { productsAtom } from '../recoil/atoms/ProductsAtom';
 
@@ -235,28 +236,10 @@ export function Home() {
 
         <div className="grid grid-cols-5 gap-4 ">
           {sampleProducts.map((product, idx) => (
-            <Link key={idx} to="/product-detail">
-              <div className="bg-white rounded-md p-[10px] h-full flex flex-col">
-                <img className="block mb-4 aspect-square" src={product.image} />
-                <span className="block my-3 text-lg grow">
-                  {capitalize(product.productName)}
-                </span>
-                <div className="flex items-center gap-2">
-                  <span className="text-lg font-bold text-red-600">
-                    {product.unitPrice.toLocaleString('vi-VN', {
-                      style: 'currency',
-                      currency: 'VND',
-                    })}
-                  </span>
-                  {product.salePrice !== 0 && (
-                    <span className="block px-1 font-bold text-red-500 bg-red-100 rounded">
-                      -{product.salePrice}%
-                    </span>
-                  )}
-                </div>
-              </div>
-            </Link>
+            <ProductCard key={idx} product={product} />
           ))}
+          {sampleProducts.length === 0 &&
+            [1, 2, 3, 4, 5].map(idx => <ProductSkeleton key={idx} />)}
         </div>
       </section>
     </BaseLayout>
