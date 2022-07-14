@@ -3,7 +3,6 @@ import { Typography } from 'antd';
 import Carousel, { CarouselRef } from 'antd/lib/carousel';
 import { padStart, sampleSize } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { api } from '../api';
 import { HeroBanner } from '../components/HeroBanner';
@@ -97,7 +96,6 @@ export function Home() {
 
   return (
     <BaseLayout>
-      <Link to="/admin1"></Link>
       <HeroBanner />
       <HeroCarousel />
       {/* Trending Section */}
