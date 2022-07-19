@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Button, Form, Input, Switch } from 'antd';
+import { useState } from 'react';
 import { api } from '../api';
 import { Product } from '../types/Product';
 import { CategorySelector } from './selector/CategorySelector';
@@ -12,20 +13,29 @@ interface Props {
 }
 
 export function UpsertProduct({ product, onUpserted }: Props) {
+  const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
+
+  form.setFieldsValue(product);
+
   return (
     <Form
+      form={form}
+      disabled={loading}
       labelCol={{ xs: 4 }}
       initialValues={product}
-      onFinish={values => {
+      onFinish={async values => {
+        setLoading(true);
         if (product?.productId) {
-          api
+          await api
             .put(`/product/${product.productId}`, { ...values, rate: 5 })
             .then(({ data }) => onUpserted?.(data));
         } else {
-          api
+          await api
             .post('/product', { ...values, rate: 5 })
             .then(({ data }) => onUpserted?.(data));
         }
+        setLoading(false);
       }}
     >
       <Form.Item label="Name" name="productName" required>
@@ -46,7 +56,7 @@ export function UpsertProduct({ product, onUpserted }: Props) {
         <Input type="number" suffix="%" className="w-80" />
       </Form.Item>
 
-      <Form.Item label="Status" name="status">
+      <Form.Item label="Status" name="status" valuePropName="checked">
         <Switch checkedChildren="Yes" unCheckedChildren="No" />
       </Form.Item>
 
@@ -96,7 +106,7 @@ export function UpsertProduct({ product, onUpserted }: Props) {
       </Form.Item>
 
       <Button type="primary" htmlType="submit" className="block mx-auto">
-        Submit
+        {product?.productId ? 'Update Product' : 'Add Product'}
       </Button>
     </Form>
   );
