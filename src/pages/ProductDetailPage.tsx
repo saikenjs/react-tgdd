@@ -3,17 +3,28 @@ import {
   InboxOutlined,
   SafetyOutlined,
 } from '@ant-design/icons';
-import { Divider, Rate, Select, Tag, Typography } from 'antd';
+import { Divider, Rate, Select, Spin, Tag, Typography } from 'antd';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { api } from '../api';
 
 import BaseLayout from '../layouts/BaseLayout';
+import { Product } from '../types/Product';
 
 export default function ProductDetailPage() {
+  const { id } = useParams();
+  const [product, setProduct] = useState<Product>();
+
+  useEffect(() => {
+    api.get(`/product/${id}`).then(({ data }) => setProduct(data));
+  }, [id]);
+
+  if (!product) return <Spin />;
+
   return (
     <BaseLayout>
       <div className="container pt-6">
-        <Typography.Title level={4}>
-          Điện thoại iPhone 13 Pro Max 128GB
-        </Typography.Title>
+        <Typography.Title level={4}>{product.productName}</Typography.Title>
         <div className="flex items-center gap-6">
           <Rate className="text-amber-500" allowClear allowHalf value={4.5} />
           <span>471 Đánh giá</span>
@@ -23,7 +34,7 @@ export default function ProductDetailPage() {
 
       <div className="container flex gap-4">
         <div className="w-3/5">
-          <img src="https://cdn.tgdd.vn/Products/Images/42/230529/Slider/RV-iphone-13-pro-max-Gioi-thieu-1020x570.jpg" />
+          <img src={product.image} className="object-contain w-full h-96" />
           <div className="grid grid-cols-2 my-8 gap-x-6 gap-y-12">
             <div className="flex items-center gap-4">
               <HistoryOutlined className="text-[32px] text-blue-400" />
@@ -55,18 +66,12 @@ export default function ProductDetailPage() {
           <div>
             <Typography.Title level={3}>Thông tin sản phẩm</Typography.Title>
             <Typography.Paragraph className="font-bold">
-              Điện thoại iPhone 13 Pro Max 128 GB - siêu phẩm được mong chờ nhất
-              ở nửa cuối năm 2021 đến từ Apple. Máy có thiết kế không mấy đột
-              phá khi so với người tiền nhiệm, bên trong đây vẫn là một sản phẩm
-              có màn hình siêu đẹp, tần số quét được nâng cấp lên 120 Hz mượt
-              mà, cảm biến camera có kích thước lớn hơn, cùng hiệu năng mạnh mẽ
-              với sức mạnh đến từ Apple A15 Bionic, sẵn sàng cùng bạn chinh phục
-              mọi thử thách.
+              {product.description}
             </Typography.Paragraph>
           </div>
         </div>
         <div className="w-2/5">
-          <div className="mb-4">
+          {/* <div className="mb-4">
             <Tag className="px-3 py-2 text-white bg-blue-400 cursor-pointer">
               125GB
             </Tag>
@@ -81,7 +86,7 @@ export default function ProductDetailPage() {
             <Tag className="px-3 py-2 cursor-pointer">Xám</Tag>
             <Tag className="px-3 py-2 cursor-pointer">Xanh lá</Tag>
             <Tag className="px-3 py-2 cursor-pointer">Xanh dương</Tag>
-          </div>
+          </div> */}
 
           <div className="overflow-hidden border border-red-300 rounded">
             <div className="flex bg-red-600 p-[10px] gap-4 items-center">
@@ -91,7 +96,10 @@ export default function ProductDetailPage() {
               />
               <div className="flex flex-col pl-4 border-l border-gray-100">
                 <span className="text-lg font-bold text-amber-300">
-                  31.290.000₫
+                  {product.unitPrice.toLocaleString('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND',
+                  })}
                 </span>
                 <span className="text-white">Kết thúc 31/07</span>
               </div>
@@ -111,7 +119,11 @@ export default function ProductDetailPage() {
               </ul>
 
               <button className="w-full py-4 mb-3 font-bold text-center text-white bg-red-600 rounded">
-                MUA NGAY GIÁ 31.290.000₫
+                MUA NGAY GIÁ
+                {product.unitPrice.toLocaleString('vi-VN', {
+                  style: 'currency',
+                  currency: 'VND',
+                })}
               </button>
               <button className="flex flex-col items-center w-full py-2 mb-3 text-white bg-blue-600 rounded ">
                 <span className="font-bold">TRẢ GÓP QUA THẺ</span>
@@ -132,7 +144,11 @@ export default function ProductDetailPage() {
 
           <div className="flex items-center gap-4 mb-4">
             <span className="text-xl font-bold text-red-600">
-              32.290.000₫ *
+              {product.unitPrice.toLocaleString('vi-VN', {
+                style: 'currency',
+                currency: 'VND',
+              })}
+              *
             </span>
             <Tag>Trả góp 0%</Tag>
           </div>

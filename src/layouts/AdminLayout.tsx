@@ -1,12 +1,16 @@
 import {
+  BankOutlined,
   LeftOutlined,
   MobileOutlined,
   RightOutlined,
+  ShopOutlined,
   TagsOutlined,
 } from '@ant-design/icons';
 import styled from '@emotion/styled';
 import { Layout, Menu } from 'antd';
+import { ItemType } from 'antd/lib/menu/hooks/useItems';
 import { ReactNode, useState } from 'react';
+import { useMatch, useNavigate } from 'react-router-dom';
 
 const { Sider, Content } = Layout;
 
@@ -30,7 +34,7 @@ const MenuStyled = styled(Menu)`
     }
   }
 
-  // Colapsed
+  // Collapsed
   &.ant-menu-inline-collapsed {
     > .ant-menu-item {
       padding: 0.8em calc(50% - 16px / 2);
@@ -42,8 +46,26 @@ interface Props {
   children: ReactNode;
 }
 
+interface SiderItem {
+  icon: ReactNode;
+  label: string;
+  path: string;
+}
+
 export default function AdminLayout({ children }: Props) {
   const [collapsed, setCollapsed] = useState(false);
+
+  const match = useMatch('/admin/:module');
+
+  const navigate = useNavigate();
+
+  const genSiderItems = (items: SiderItem[]): ItemType[] =>
+    items.map(({ icon, label, path }) => ({
+      key: path.replace('/admin/', ''),
+      icon,
+      label,
+      onClick: () => navigate(path),
+    }));
 
   return (
     <Layout hasSider className="h-screen gap-10 p-6 bg-[#dfeff7] shadow-2xl">
@@ -70,14 +92,32 @@ export default function AdminLayout({ children }: Props) {
         </div>
         <MenuStyled
           mode="inline"
-          defaultSelectedKeys={['1']}
-          items={[
-            { key: 1, icon: <MobileOutlined />, label: 'Product Management' },
-            { key: 2, icon: <TagsOutlined />, label: 'Category Management' },
-          ]}
+          selectedKeys={[match?.params.module ?? '']}
+          items={genSiderItems([
+            {
+              icon: <MobileOutlined />,
+              label: 'Product Management',
+              path: '/admin/product-management',
+            },
+            {
+              icon: <TagsOutlined />,
+              label: 'Category Management',
+              path: '/admin/category-management',
+            },
+            {
+              icon: <BankOutlined />,
+              label: 'Manufacturer Management',
+              path: '/admin/manufacturer-management',
+            },
+            {
+              icon: <ShopOutlined />,
+              label: 'Store Management',
+              path: '/admin/store-management',
+            },
+          ])}
         />
       </Sider>
-      <Content className="p-6 bg-white shadow-2xl rounded-xl">
+      <Content className="p-6 overflow-scroll bg-white shadow-2xl rounded-xl">
         {children}
       </Content>
     </Layout>

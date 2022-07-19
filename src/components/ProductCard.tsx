@@ -9,7 +9,7 @@ interface Props {
 
 export function ProductCard({ product }: Props) {
   return (
-    <Link to="/product-detail">
+    <Link to={`/product-detail/${product.productId}`}>
       <div className="bg-white rounded-md p-[10px] h-full flex flex-col">
         <img className="block mb-4 aspect-square" src={product.image} />
         <span className="block my-3 text-lg grow">

@@ -1,20 +1,16 @@
 import { Typography } from 'antd';
 import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import { TopBanner } from '../components/TopBanner';
 import { TopHeader } from '../components/TopHeader';
-import { useScrollPosition } from '../hooks/useScrollPosition';
 
 interface Props {
   children: ReactNode;
 }
 
 export default function BaseLayout({ children }: Props) {
-  const scrollPosition = useScrollPosition();
-
   return (
     <div className="bg-[#f3f3f3] relative">
-      <div className="container sticky top-0">
+      {/* <div className="container sticky top-0">
         {scrollPosition > 500 && (
           <>
             <img
@@ -27,8 +23,8 @@ export default function BaseLayout({ children }: Props) {
             />
           </>
         )}
-      </div>
-      <TopBanner />
+      </div> */}
+      {/* <TopBanner /> */}
       <TopHeader />
 
       {children}

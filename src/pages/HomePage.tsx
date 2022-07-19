@@ -87,7 +87,7 @@ export function Home() {
 
   useEffect(() => {
     api
-      .get('/product')
+      .get('/productForCus')
       .then(({ data }) => setProducts(data))
       .catch(err => {
         throw new Error(err);
@@ -234,7 +234,7 @@ export function Home() {
           ))}
         </div>
 
-        <div className="grid grid-cols-5 gap-4 ">
+        <div className="grid grid-cols-5 gap-4">
           {sampleProducts.map((product, idx) => (
             <ProductCard key={idx} product={product} />
           ))}
