@@ -44,9 +44,11 @@ export default function ProductManagement() {
           />
         )}
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-5 gap-4">
           {products.map((product, idx) => (
-            <ProductCard key={idx} product={product} />
+            <div key={idx} className="shadow">
+              <ProductCard product={product} />
+            </div>
           ))}
         </div>
       </div>
