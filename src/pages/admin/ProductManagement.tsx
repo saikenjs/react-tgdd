@@ -5,7 +5,7 @@ import { api } from '../../api';
 import { Loading } from '../../components/Loading';
 import { ProductCard } from '../../components/ProductCard';
 import { UpsertProduct } from '../../components/UpsertProduct';
-import { useUpdateListProduct } from '../../hooks/useUpdateListProduct';
+import { useProducts } from '../../hooks/useProducts';
 import AdminLayout from '../../layouts/AdminLayout';
 import { Product } from '../../types/Product';
 
@@ -14,16 +14,16 @@ export default function ProductManagement() {
   const [loading, setLoading] = useState(false);
   const [product, setProduct] = useState<Product>();
 
-  const { fetchProducts, products } = useUpdateListProduct();
+  const { fetch, products } = useProducts();
 
   useEffect(() => {
-    fetchProducts();
+    fetch();
   }, []);
 
   const onDelete = async (id: number) => {
     setLoading(true);
     await api.put(`/deleteProduct/${id}`);
-    await fetchProducts();
+    await fetch();
     setLoading(false);
   };
 
@@ -45,7 +45,7 @@ export default function ProductManagement() {
             onUpserted={() => {
               setProduct(undefined);
               setShowUpsert(false);
-              fetchProducts();
+              fetch();
             }}
           />
         )}
@@ -55,7 +55,14 @@ export default function ProductManagement() {
             <div key={idx} className="flex flex-col shadow">
               <ProductCard product={product} />
               <div className="flex justify-around p-4">
-                <Button onClick={() => setProduct(product)}>Update</Button>
+                <Button
+                  onClick={() => {
+                    setProduct(product);
+                    setShowUpsert(true);
+                  }}
+                >
+                  Update
+                </Button>
                 <Button onClick={() => onDelete(product.productId)}>
                   Delete
                 </Button>
