@@ -12,13 +12,14 @@ export function CategorySelector(props: Props) {
   const [categories, setCategories] = useState<Category[]>();
 
   useEffect(() => {
-    api.get<Category[]>('/category').then(({ data }) => {
+    api.get<Category[]>('/admin/category').then(({ data }) => {
       setCategories(data);
     });
   }, []);
 
   return (
     <Select
+      className="min-w-[150px]"
       placeholder="Select category"
       loading={!categories}
       options={categories}

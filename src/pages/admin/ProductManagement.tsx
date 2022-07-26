@@ -1,5 +1,5 @@
-import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
+import { CloseOutlined, MinusOutlined, PlusOutlined } from '@ant-design/icons';
+import { Button, Modal } from 'antd';
 import { useEffect, useState } from 'react';
 import { api } from '../../api';
 import { Loading } from '../../components/Loading';
@@ -18,6 +18,7 @@ export default function ProductManagement() {
 
   useEffect(() => {
     fetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onDelete = async (id: number) => {
@@ -39,7 +40,11 @@ export default function ProductManagement() {
           </Button>
         </div>
 
-        {showUpsert && (
+        <Modal
+          visible={showUpsert}
+          footer={null}
+          closeIcon={<CloseOutlined onClick={() => setShowUpsert(false)} />}
+        >
           <UpsertProduct
             product={product}
             onUpserted={() => {
@@ -48,7 +53,7 @@ export default function ProductManagement() {
               fetch();
             }}
           />
-        )}
+        </Modal>
 
         <div className="grid grid-cols-5 gap-4">
           {products.map((product, idx) => (

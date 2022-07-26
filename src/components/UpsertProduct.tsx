@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Button, Form, Input, Switch } from 'antd';
-import { useState } from 'react';
+import { Button, Form, Input, message, Switch } from 'antd';
+import { useEffect, useState } from 'react';
 import { api } from '../api';
 import { Product } from '../types/Product';
 import { CategorySelector } from './selector/CategorySelector';
@@ -16,24 +16,29 @@ export function UpsertProduct({ product, onUpserted }: Props) {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
 
-  form.setFieldsValue(product);
+  useEffect(() => {
+    form.setFieldsValue(product);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [product]);
 
   return (
     <Form
+      className="pt-12"
       form={form}
       disabled={loading}
-      labelCol={{ xs: 4 }}
+      labelCol={{ span: 6 }}
       initialValues={product}
       onFinish={async values => {
         setLoading(true);
         if (product?.productId) {
           await api
-            .put(`/product/${product.productId}`, { ...values, rate: 5 })
+            .put(`/admin/product/${product.productId}`, { ...values, rate: 5 })
             .then(({ data }) => onUpserted?.(data));
         } else {
           await api
-            .post('/product', { ...values, rate: 5 })
-            .then(({ data }) => onUpserted?.(data));
+            .post('/admin/product', { ...values, rate: 5 })
+            .then(({ data }) => onUpserted?.(data))
+            .catch(err => message.error(err.message));
         }
         setLoading(false);
       }}
@@ -83,25 +88,15 @@ export function UpsertProduct({ product, onUpserted }: Props) {
         </Upload>
       </Form.Item> */}
 
-      <Form.Item
-        label="Category"
-        name="categoryId"
-        wrapperCol={{ xs: 4 }}
-        required
-      >
+      <Form.Item label="Category" name="categoryId" required>
         <CategorySelector />
       </Form.Item>
 
-      <Form.Item
-        label="Manufacturer"
-        name="manufacturerId"
-        wrapperCol={{ xs: 4 }}
-        required
-      >
+      <Form.Item label="Manufacturer" name="manufacturerId" required>
         <ManufacturerSelector />
       </Form.Item>
 
-      <Form.Item label="Store" name="storeId" wrapperCol={{ xs: 4 }} required>
+      <Form.Item label="Store" name="storeId" required>
         <StoreSelector />
       </Form.Item>
 

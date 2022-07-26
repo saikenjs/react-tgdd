@@ -12,7 +12,7 @@ export function useProducts() {
 
   const fetch = async ({ page = 1 }: FetchProps = {}) => {
     api
-      .get<{ items: Product[] }>(`/product?limit=10&page=${page}`)
+      .get<{ items: Product[] }>(`/admin/product?limit=10&page=${page}`)
       .then(({ data }) => setProducts(data.items));
   };
 

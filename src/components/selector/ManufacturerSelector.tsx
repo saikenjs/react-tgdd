@@ -13,12 +13,13 @@ export function ManufacturerSelector(props: Props) {
 
   useEffect(() => {
     api
-      .get<Manufacturer[]>('/manufacturer')
+      .get<Manufacturer[]>('/admin/manufacturer')
       .then(({ data }) => setManufacturer(data));
   }, []);
 
   return (
     <Select
+      className="min-w-[150px]"
       placeholder="Select manufacturer"
       loading={!manufacturer}
       options={manufacturer}

@@ -1,4 +1,7 @@
 import { Select } from 'antd';
+import { useEffect, useState } from 'react';
+import { api } from '../../api';
+import { Store } from '../../types/Store';
 
 interface Props {
   value?: number;
@@ -6,13 +9,20 @@ interface Props {
 }
 
 export function StoreSelector(props: Props) {
+  const [stores, setStores] = useState<Store[]>([]);
+
+  useEffect(() => {
+    api.get<Store[]>('/store').then(({ data }) => {
+      setStores(data);
+    });
+  }, []);
+
   return (
     <Select
+      className="min-w-[150px] w-full"
       placeholder="Select store"
-      options={[
-        { label: 'Store 1', value: 1 },
-        { label: 'Store 2', value: 2 },
-      ]}
+      options={stores.filter(e => e.status)}
+      fieldNames={{ label: 'storeName', value: 'storeId' }}
       {...props}
     />
   );
