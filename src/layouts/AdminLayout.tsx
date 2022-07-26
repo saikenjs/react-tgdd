@@ -18,6 +18,8 @@ const { Sider, Content } = Layout;
 const MenuStyled = styled(Menu)`
   font-size: 16px;
   padding-left: 1em;
+  border-right: none !important;
+
   > .ant-menu-item {
     margin: 0 !important;
     padding: 0.8em 0.5em;

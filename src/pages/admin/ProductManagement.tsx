@@ -23,7 +23,7 @@ export default function ProductManagement() {
 
   const onDelete = async (id: number) => {
     setLoading(true);
-    await api.put(`/deleteProduct/${id}`);
+    await api.put(`/admin/deleteProduct/${id}`);
     await fetch();
     setLoading(false);
   };

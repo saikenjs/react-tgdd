@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Button, Form, Input, message, Switch } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import { Button, Form, Input, message, Switch, Upload } from 'antd';
 import { useEffect, useState } from 'react';
 import { api } from '../api';
 import { Product } from '../types/Product';
@@ -32,11 +33,19 @@ export function UpsertProduct({ product, onUpserted }: Props) {
         setLoading(true);
         if (product?.productId) {
           await api
-            .put(`/admin/product/${product.productId}`, { ...values, rate: 5 })
+            .put(`/admin/product/${product.productId}`, {
+              ...values,
+              rate: 4.5,
+              image: values.image.file.response.data.display_url,
+            })
             .then(({ data }) => onUpserted?.(data));
         } else {
           await api
-            .post('/admin/product', { ...values, rate: 5 })
+            .post('/admin/product', {
+              ...values,
+              rate: 5,
+              image: values.image.file.response.data.display_url,
+            })
             .then(({ data }) => onUpserted?.(data))
             .catch(err => message.error(err.message));
         }
@@ -69,24 +78,17 @@ export function UpsertProduct({ product, onUpserted }: Props) {
         <Input type="number" suffix="Sản phẩm" />
       </Form.Item>
 
-      <Form.Item label="Images" name="image" required>
-        <Input placeholder="Enter url" />
-      </Form.Item>
-      {/* <Form.Item label="Images" name="images" valuePropName="fileList">
+      <Form.Item label="Image" name="image" required>
         <Upload
           listType="picture-card"
           maxCount={1}
-          customRequest={({ file, onSuccess, onError }) => {
-            axios.post(
-              'https://api.imgur.com/3/image',
-              { image: file },
-              { headers: { Authorization: 'Client-ID a7ed3f5c19df807' } },
-            );
-          }}
+          action="https://api.imgbb.com/1/upload"
+          data={{ key: 'd0abe88065f9d724e5d8649eb5aed35c' }}
+          name="image"
         >
           <PlusOutlined />
         </Upload>
-      </Form.Item> */}
+      </Form.Item>
 
       <Form.Item label="Category" name="categoryId" required>
         <CategorySelector />
