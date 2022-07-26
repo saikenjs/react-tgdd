@@ -97,52 +97,34 @@ export function CategoryManagement() {
             title: 'Action',
             key: 'action',
             dataIndex: 'status',
-            render: (status, category) => (
-              <div className="flex gap-4">
-                {!status ? (
-                  <Button
-                    type="primary"
-                    className="bg-green-500 border-none rounded"
-                    onClick={() =>
-                      updateCategory(category.categoryId, {
-                        ...category,
-                        status: true,
-                      })
-                    }
-                  >
-                    Enable
-                  </Button>
-                ) : (
-                  <Button
-                    type="primary"
-                    className="bg-gray-500 border-none rounded"
-                    onClick={() =>
-                      updateCategory(category.categoryId, {
-                        ...category,
-                        status: false,
-                      })
-                    }
-                  >
-                    Disable
-                  </Button>
-                )}
+            render: (status, category) =>
+              !status ? (
                 <Button
-                  className="text-white bg-red-500 border-none rounded"
-                  onClick={() => {
-                    setLoading(true);
-                    api
-                      .put(`/admin/deleteCategory/${category.categoryId}`)
-                      .then(() => message.success('Delete Successfully'))
-                      .catch(() => message.error('Delete Failed'))
-                      .finally(() =>
-                        fetchCategories().finally(() => setLoading(false)),
-                      );
-                  }}
+                  type="primary"
+                  className="bg-green-500 border-none rounded"
+                  onClick={() =>
+                    updateCategory(category.categoryId, {
+                      ...category,
+                      status: true,
+                    })
+                  }
                 >
-                  Delete
+                  Enable
                 </Button>
-              </div>
-            ),
+              ) : (
+                <Button
+                  type="primary"
+                  className="bg-red-500 border-none rounded"
+                  onClick={() =>
+                    updateCategory(category.categoryId, {
+                      ...category,
+                      status: false,
+                    })
+                  }
+                >
+                  Disable
+                </Button>
+              ),
           },
         ]}
         dataSource={categories}

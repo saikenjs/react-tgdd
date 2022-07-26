@@ -1,5 +1,6 @@
 import {
   BankOutlined,
+  HomeOutlined,
   LeftOutlined,
   MobileOutlined,
   RightOutlined,
@@ -85,15 +86,22 @@ export default function AdminLayout({ children }: Props) {
           {collapsed ? <RightOutlined /> : <LeftOutlined />}
         </div>
         <div className="p-6">
-          <img
-            className="block object-left mb-20 h-[42px] object-cover"
-            src={`/images/logo-full.png`}
-          />
+          <div className="overflow-hidden">
+            <img
+              className="block object-left mb-20 h-[42px] object-cover overflow-hidden"
+              src={`/images/logo-full.png`}
+            />
+          </div>
         </div>
         <MenuStyled
           mode="inline"
           selectedKeys={[match?.params.module ?? '']}
           items={genSiderItems([
+            {
+              icon: <HomeOutlined />,
+              label: 'Home',
+              path: '/admin',
+            },
             {
               icon: <MobileOutlined />,
               label: 'Product Management',
