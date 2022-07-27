@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { PlusOutlined } from '@ant-design/icons';
-import { Button, Form, Input, message, Switch, Upload } from 'antd';
+import { Button, Form, Input, message, Switch } from 'antd';
 import { useEffect, useState } from 'react';
 import { api } from '../api';
 import { Product } from '../types/Product';
 import { CategorySelector } from './selector/CategorySelector';
 import { ManufacturerSelector } from './selector/ManufacturerSelector';
 import { StoreSelector } from './selector/StoreSelector';
+import { UploadImage } from './UploadImage';
 
 interface Props {
   product?: Product;
@@ -36,17 +36,21 @@ export function UpsertProduct({ product, onUpserted }: Props) {
             .put(`/admin/product/${product.productId}`, {
               ...values,
               rate: 4.5,
-              image: values.image.file.response.data.display_url,
             })
-            .then(({ data }) => onUpserted?.(data));
+            .then(({ data }) => {
+              onUpserted?.(data);
+              form.resetFields();
+            });
         } else {
           await api
             .post('/admin/product', {
               ...values,
               rate: 5,
-              image: values.image.file.response.data.display_url,
             })
-            .then(({ data }) => onUpserted?.(data))
+            .then(({ data }) => {
+              onUpserted?.(data);
+              form.resetFields();
+            })
             .catch(err => message.error(err.message));
         }
         setLoading(false);
@@ -79,15 +83,7 @@ export function UpsertProduct({ product, onUpserted }: Props) {
       </Form.Item>
 
       <Form.Item label="Image" name="image" required>
-        <Upload
-          listType="picture-card"
-          maxCount={1}
-          action="https://api.imgbb.com/1/upload"
-          data={{ key: 'd0abe88065f9d724e5d8649eb5aed35c' }}
-          name="image"
-        >
-          <PlusOutlined />
-        </Upload>
+        <UploadImage />
       </Form.Item>
 
       <Form.Item label="Category" name="categoryId" required>
