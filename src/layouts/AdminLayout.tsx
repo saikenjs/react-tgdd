@@ -10,8 +10,10 @@ import {
 import styled from '@emotion/styled';
 import { Layout, Menu } from 'antd';
 import { ItemType } from 'antd/lib/menu/hooks/useItems';
-import { ReactNode, useState } from 'react';
+import { ReactNode } from 'react';
 import { useMatch, useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { BaseAtom } from '../recoil/atoms/BaseAtom';
 /*
  * import { useRecoilValue } from 'recoil';
  * import { Login } from '../components/Login';
@@ -61,7 +63,7 @@ interface SiderItem {
 }
 
 export default function AdminLayout({ children }: Props) {
-  const [collapsed, setCollapsed] = useState(false);
+  const [{ collapsed }, setBase] = useRecoilState(BaseAtom);
 
   // const user = useRecoilValue(userAtom);
 
@@ -92,7 +94,9 @@ export default function AdminLayout({ children }: Props) {
       >
         <div
           className="bg-[#FFEB99] absolute w-10 h-10  rounded-full shadow-2xl -right-[20px] flex justify-center items-center text-gray-800 top-20"
-          onClick={() => setCollapsed(prev => !prev)}
+          onClick={() =>
+            setBase(prev => ({ ...prev, collapsed: !prev.collapsed }))
+          }
         >
           {collapsed ? <RightOutlined /> : <LeftOutlined />}
         </div>

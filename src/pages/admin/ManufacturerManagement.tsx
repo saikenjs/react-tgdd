@@ -100,6 +100,7 @@ export function ManufacturerManagement() {
       </Modal>
 
       <Table
+        rowKey={record => record.manufacturerId}
         loading={loading}
         columns={[
           { title: 'ID', key: 'id', dataIndex: 'manufacturerId' },

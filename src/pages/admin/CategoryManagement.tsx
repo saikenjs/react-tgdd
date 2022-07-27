@@ -80,6 +80,7 @@ export function CategoryManagement() {
 
       <Table
         loading={loading}
+        rowKey={record => record.categoryId}
         columns={[
           { title: 'ID', key: 'id', dataIndex: 'categoryId' },
           { title: 'Name', key: 'name', dataIndex: 'categoryName' },

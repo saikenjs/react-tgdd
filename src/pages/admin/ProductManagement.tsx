@@ -34,7 +34,11 @@ export default function ProductManagement() {
     <AdminLayout>
       <div>
         <div className="flex justify-end mb-6">
-          <Button type="primary" onClick={() => setShowUpsert(!showUpsert)}>
+          <Button
+            className=""
+            type="primary"
+            onClick={() => setShowUpsert(!showUpsert)}
+          >
             {showUpsert ? <MinusOutlined /> : <PlusOutlined />}
             Add Product
           </Button>
