@@ -124,8 +124,7 @@ export function Home() {
         </div>
       </div>
 
-      {/* Highlight categories */}
-      <div className="container p-6 my-8 bg-white rounded-xl">
+      {/* <div className="container p-6 my-8 bg-white rounded-xl">
         <Typography.Title level={4} className="uppercase">
           Danh mục nổi bật
         </Typography.Title>
@@ -145,7 +144,6 @@ export function Home() {
         </div>
       </div>
 
-      {/* Buy online  */}
       <div className="container">
         <Typography.Title level={4} className="uppercase mb-[15px]">
           Giảm thêm khi thanh toán online
@@ -185,7 +183,6 @@ export function Home() {
         </div>
       </div>
 
-      {/* Service convinience */}
       <div className="container p-6 my-8 bg-white rounded-xl">
         <Typography.Title level={4} className="uppercase">
           Dịch vụ tiện ích
@@ -208,7 +205,7 @@ export function Home() {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
 
       {/* Recommend Section */}
       <section className="container">
