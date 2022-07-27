@@ -12,9 +12,11 @@ import { Layout, Menu } from 'antd';
 import { ItemType } from 'antd/lib/menu/hooks/useItems';
 import { ReactNode, useState } from 'react';
 import { useMatch, useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-import { Login } from '../components/Login';
-import { userAtom } from '../recoil/atoms/UserAtom';
+/*
+ * import { useRecoilValue } from 'recoil';
+ * import { Login } from '../components/Login';
+ * import { userAtom } from '../recoil/atoms/UserAtom';
+ */
 
 const { Sider, Content } = Layout;
 
@@ -61,7 +63,7 @@ interface SiderItem {
 export default function AdminLayout({ children }: Props) {
   const [collapsed, setCollapsed] = useState(false);
 
-  const user = useRecoilValue(userAtom);
+  // const user = useRecoilValue(userAtom);
 
   const match = useMatch('/admin/:module');
 
@@ -75,7 +77,7 @@ export default function AdminLayout({ children }: Props) {
       onClick: () => navigate(path),
     }));
 
-  if (!user) return <Login />;
+  // if (!user) return <Login />;
 
   return (
     <Layout hasSider className="h-screen gap-10 p-6 bg-[#dfeff7] shadow-2xl">
