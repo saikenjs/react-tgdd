@@ -5,6 +5,7 @@ import {
   MobileOutlined,
   RightOutlined,
   ShopOutlined,
+  ShoppingOutlined,
   TagsOutlined,
 } from '@ant-design/icons';
 import styled from '@emotion/styled';
@@ -140,6 +141,11 @@ export default function AdminLayout({ children }: Props) {
               icon: <ShopOutlined />,
               label: 'Store Management',
               path: '/admin/store-management',
+            },
+            {
+              icon: <ShoppingOutlined />,
+              label: 'Order Management',
+              path: '/admin/order-management',
             },
           ])}
         />

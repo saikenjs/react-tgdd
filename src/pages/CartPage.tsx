@@ -1,13 +1,13 @@
-import { Form, Input, InputNumber, Typography } from 'antd';
+import { Form, Input, InputNumber, message, Select, Typography } from 'antd';
 import { useRecoilState } from 'recoil';
+import { api } from '../api';
 import { TopBanner } from '../components/TopBanner';
 import { TopHeader } from '../components/TopHeader';
 import { cartAtom } from '../recoil/atoms/CartAtom';
 
 export default function CartPage() {
   const [cart, setCart] = useRecoilState(cartAtom);
-
-  console.log(cart);
+  const [form] = Form.useForm();
 
   return (
     <div className="bg-[#f3f3f3] min-h-screen">
@@ -46,18 +46,84 @@ export default function CartPage() {
             </div>
           ))}
         </div>
-        <Form className="w-1/3 p-4 bg-white rounded" layout="vertical">
+
+        <Form
+          form={form}
+          className="w-1/3 p-4 bg-white rounded"
+          layout="vertical"
+          onFinish={values => {
+            if (cart.length === 0) {
+              message.warn('Giỏ hàng trống, vui lòng thêm sản phẩm!');
+              return;
+            }
+
+            api
+              .post('/checkout', {
+                ...values,
+                orderDate: Date.now(),
+                totalPrice: cart.reduce(
+                  (acc, cur) => acc + cur.product.salePrice * cur.amount,
+                  0,
+                ),
+                orderDetailList: cart.map(item => ({
+                  productId: item.product.productId,
+                  quantity: item.amount,
+                })),
+              })
+              .then(() => {
+                message.success('Order success! Please check your mail.');
+                setCart([]);
+                form.resetFields();
+              })
+              .catch(() => message.error('Failed! Please try again'));
+          }}
+        >
           <Typography.Title level={4}>Thông tin khách hàng:</Typography.Title>
-          <Form.Item label="Họ và tên: ">
+          <Form.Item
+            label="Họ và tên"
+            name="customerName"
+            rules={[{ required: true }]}
+          >
             <Input size="large" className="rounded" />
           </Form.Item>
 
-          <Form.Item label="Địa chỉ: ">
+          <Form.Item
+            label="Địa chỉ"
+            name="address"
+            rules={[{ required: true }]}
+          >
             <Input size="large" className="rounded" />
           </Form.Item>
 
-          <Form.Item label="Số điện thoại: ">
+          <Form.Item
+            label="Số điện thoại"
+            name="phoneNumber"
+            rules={[{ required: true }]}
+          >
             <Input size="large" className="rounded" type="tel" />
+          </Form.Item>
+
+          <Form.Item label="Email" name="email" rules={[{ required: true }]}>
+            <Input type="email" size="large" className="rounded" />
+          </Form.Item>
+
+          <Form.Item
+            label="Hình thức vận chuyển"
+            name="shippingType"
+            rules={[{ required: true }]}
+          >
+            <Select
+              size="large"
+              className="rounded"
+              options={[
+                { value: 'Giao hàng tiết kiệm' },
+                { value: 'Giao hàng nhanh' },
+                { value: 'Best Express' },
+                { value: 'Vietnam Post' },
+                { value: 'Viettel Post' },
+              ]}
+              fieldNames={{ label: 'value' }}
+            />
           </Form.Item>
 
           <button
