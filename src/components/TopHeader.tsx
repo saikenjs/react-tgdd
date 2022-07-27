@@ -1,8 +1,10 @@
 import { SearchOutlined, ShoppingCartOutlined } from '@ant-design/icons';
-import { Button, Input, Typography } from 'antd';
+import { Badge, Button, Input, Typography } from 'antd';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import { api } from '../api';
+import { cartAtom } from '../recoil/atoms/CartAtom';
 import { Category } from '../types/Category';
 
 const fixedData = [
@@ -16,6 +18,7 @@ const fixedData = [
 
 export function TopHeader() {
   const [categories, setCategories] = useState<Category[]>([]);
+  const cart = useRecoilValue(cartAtom);
 
   useEffect(() => {
     api.get('/categoryForcus').then(({ data }) => setCategories(data));
@@ -40,10 +43,12 @@ export function TopHeader() {
               Lịch sử đơn hàng
             </Button>
             <Link to="/cart">
-              <Button className="bg-[#ffac0a] border-none rounded h-10 flex items-center gap-2">
-                <ShoppingCartOutlined className="text-xl" />
-                <Typography>Giỏ hàng</Typography>
-              </Button>
+              <Badge count={cart.reduce((acc, cur) => acc + cur.amount, 0)}>
+                <Button className="bg-[#ffac0a] border-none rounded h-10 flex items-center gap-2">
+                  <ShoppingCartOutlined className="text-xl" />
+                  <Typography>Giỏ hàng</Typography>
+                </Button>
+              </Badge>
             </Link>
           </div>
         </div>

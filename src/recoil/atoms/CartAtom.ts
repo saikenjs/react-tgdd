@@ -1,7 +1,7 @@
 import { atom } from 'recoil';
 import { Product } from '../../types/Product';
 
-interface CartItem {
+export interface CartItem {
   product: Product;
   amount: number;
 }

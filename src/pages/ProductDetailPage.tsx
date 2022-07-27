@@ -1,19 +1,18 @@
-import {
-  HistoryOutlined,
-  InboxOutlined,
-  SafetyOutlined,
-} from '@ant-design/icons';
-import { Divider, Rate, Select, Spin, Tag, Typography } from 'antd';
+import { HistoryOutlined, SafetyOutlined } from '@ant-design/icons';
+import { Divider, Rate, Spin, Typography } from 'antd';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
 import { api } from '../api';
 
 import BaseLayout from '../layouts/BaseLayout';
+import { cartAtom, CartItem } from '../recoil/atoms/CartAtom';
 import { Product } from '../types/Product';
 
 export default function ProductDetailPage() {
   const { id } = useParams();
   const [product, setProduct] = useState<Product>();
+  const setCart = useSetRecoilState(cartAtom);
 
   useEffect(() => {
     api.get(`/product/${id}`).then(({ data }) => setProduct(data));
@@ -51,14 +50,6 @@ export default function ProductDetailPage() {
                 trung tâm bảo hành hãng
               </span>
             </div>
-
-            <div className="flex items-center gap-4">
-              <InboxOutlined className="text-[32px] text-blue-400" />
-              <span>
-                Bộ sản phẩm gồm: Hộp, Sách hướng dẫn, Cây lấy sim, Cáp Lightning
-                - Type C
-              </span>
-            </div>
           </div>
 
           <Divider />
@@ -71,23 +62,6 @@ export default function ProductDetailPage() {
           </div>
         </div>
         <div className="w-2/5">
-          {/* <div className="mb-4">
-            <Tag className="px-3 py-2 text-white bg-blue-400 cursor-pointer">
-              125GB
-            </Tag>
-            <Tag className="px-3 py-2 cursor-pointer">256GB</Tag>
-            <Tag className="px-3 py-2 cursor-pointer">1TB</Tag>
-          </div>
-          <div className="mb-4">
-            <Tag className="px-3 py-2 text-white bg-blue-400 cursor-pointer">
-              Vàng đồng
-            </Tag>
-            <Tag className="px-3 py-2 cursor-pointer">Bạc</Tag>
-            <Tag className="px-3 py-2 cursor-pointer">Xám</Tag>
-            <Tag className="px-3 py-2 cursor-pointer">Xanh lá</Tag>
-            <Tag className="px-3 py-2 cursor-pointer">Xanh dương</Tag>
-          </div> */}
-
           <div className="overflow-hidden border border-red-300 rounded">
             <div className="flex bg-red-600 p-[10px] gap-4 items-center">
               <img
@@ -117,14 +91,14 @@ export default function ProductDetailPage() {
                 <li>Số lượng có hạn, áp dụng tùy tỉnh thành</li>
                 <li>Hư gì đổi nấy trong 15 ngày nếu lỗi do nhà sản xuất</li>
               </ul>
-
+              {/* 
               <button className="w-full py-4 mb-3 font-bold text-center text-white bg-red-600 rounded">
-                MUA NGAY GIÁ
+                <span>MUA NGAY GIÁ </span>
                 {product.unitPrice.toLocaleString('vi-VN', {
                   style: 'currency',
                   currency: 'VND',
                 })}
-              </button>
+              </button> */}
               <button className="flex flex-col items-center w-full py-2 mb-3 text-white bg-blue-600 rounded ">
                 <span className="font-bold">TRẢ GÓP QUA THẺ</span>
                 <span>Visa, Mastercard, JCB, Amex</span>
@@ -132,15 +106,6 @@ export default function ProductDetailPage() {
             </div>
           </div>
           <Divider>Hoặc mua giá thường</Divider>
-
-          <div className="mb-4">
-            <span>Giá tại: </span>
-            <Select defaultValue={0}>
-              <Select.Option value={0}>Hồ Chí Minh</Select.Option>
-              <Select.Option value={1}>Hà Nội</Select.Option>
-              <Select.Option value={2}>Đà Nẵng</Select.Option>
-            </Select>
-          </div>
 
           <div className="flex items-center gap-4 mb-4">
             <span className="text-xl font-bold text-red-600">
@@ -150,14 +115,25 @@ export default function ProductDetailPage() {
               })}
               *
             </span>
-            <Tag>Trả góp 0%</Tag>
           </div>
 
           <button
             type="submit"
             className="py-3 font-bold w-full border-none rounded bg-gradient-to-b from-[#f79429] to-[#f7712e] text-white"
+            onClick={() => {
+              setCart(cart => {
+                const idx = cart.findIndex(
+                  e => e.product.productId === product.productId,
+                );
+                if (idx !== -1)
+                  return cart.map<CartItem>((e, i) =>
+                    i === idx ? { ...e, amount: e.amount + 1 } : e,
+                  );
+                return [...cart, { product, amount: 1 }];
+              });
+            }}
           >
-            Mua ngay
+            Thêm vào giỏ hàng
           </button>
         </div>
       </div>
