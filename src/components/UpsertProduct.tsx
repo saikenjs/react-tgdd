@@ -59,7 +59,7 @@ export function UpsertProduct({ product, onUpserted }: Props) {
       <Form.Item
         label="Name"
         name="productName"
-        rules={[{ required: true }, { min: 6 }]}
+        rules={[{ required: true }, { min: 5 }]}
       >
         <Input placeholder="Ex: Iphone 14" />
       </Form.Item>

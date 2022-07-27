@@ -35,7 +35,7 @@ export default function ProductManagement() {
       <div>
         <div className="flex justify-end mb-6">
           <Button
-            className=""
+            className="bg-green-500 border-none rounded-lg"
             type="primary"
             onClick={() => setShowUpsert(!showUpsert)}
           >
