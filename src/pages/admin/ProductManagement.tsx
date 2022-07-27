@@ -43,7 +43,14 @@ export default function ProductManagement() {
         <Modal
           visible={showUpsert}
           footer={null}
-          closeIcon={<CloseOutlined onClick={() => setShowUpsert(false)} />}
+          closeIcon={
+            <CloseOutlined
+              onClick={() => {
+                setShowUpsert(false);
+                setProduct(undefined);
+              }}
+            />
+          }
         >
           <UpsertProduct
             product={product}
@@ -55,12 +62,13 @@ export default function ProductManagement() {
           />
         </Modal>
 
-        <div className="grid grid-cols-5 gap-4">
+        <div className="grid grid-cols-5 gap-8">
           {products.map((product, idx) => (
-            <div key={idx} className="flex flex-col shadow">
+            <div key={idx} className="flex flex-col rounded-md shadow-2xl">
               <ProductCard product={product} />
               <div className="flex justify-around p-4">
                 <Button
+                  className="text-white border-none rounded-lg bg-amber-500"
                   onClick={() => {
                     setProduct(product);
                     setShowUpsert(true);
@@ -68,7 +76,10 @@ export default function ProductManagement() {
                 >
                   Update
                 </Button>
-                <Button onClick={() => onDelete(product.productId)}>
+                <Button
+                  className="text-white bg-red-500 border-none rounded-lg"
+                  onClick={() => onDelete(product.productId)}
+                >
                   Delete
                 </Button>
               </div>

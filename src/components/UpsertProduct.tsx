@@ -18,7 +18,7 @@ export function UpsertProduct({ product, onUpserted }: Props) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    form.setFieldsValue(product);
+    product ? form.setFieldsValue(product) : form.resetFields();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [product]);
 
@@ -56,45 +56,66 @@ export function UpsertProduct({ product, onUpserted }: Props) {
         setLoading(false);
       }}
     >
-      <Form.Item label="Name" name="productName" required>
+      <Form.Item
+        label="Name"
+        name="productName"
+        rules={[{ required: true }, { min: 6 }]}
+      >
         <Input placeholder="Ex: Iphone 14" />
       </Form.Item>
 
-      <Form.Item label="Description" name="description" required>
+      <Form.Item
+        label="Description"
+        name="description"
+        rules={[{ min: 20 }, { required: true }]}
+      >
         <Input.TextArea
           autoSize={{ minRows: 2 }}
           placeholder="Ex: This is perfect phone in the world, :penguin:"
         />
       </Form.Item>
 
-      <Form.Item label="Price" name="unitPrice" required>
+      <Form.Item label="Price" name="unitPrice" rules={[{ required: true }]}>
         <Input type="number" suffix="VNĐ" className="w-80" />
       </Form.Item>
-      <Form.Item label="Discount" name="salePrice" required>
+      <Form.Item label="Discount" name="salePrice" rules={[{ required: true }]}>
         <Input type="number" suffix="%" className="w-80" />
       </Form.Item>
 
-      <Form.Item label="Status" name="status" valuePropName="checked">
+      <Form.Item
+        label="Status"
+        name="status"
+        valuePropName="checked"
+        initialValue={true}
+      >
         <Switch checkedChildren="Yes" unCheckedChildren="No" />
       </Form.Item>
 
-      <Form.Item label="Quantity" name="quantity">
+      <Form.Item label="Quantity" name="quantity" rules={[{ required: true }]}>
         <Input type="number" suffix="Sản phẩm" />
       </Form.Item>
 
-      <Form.Item label="Image" name="image" required>
+      <Form.Item label="Image" name="image" rules={[{ required: true }]}>
         <UploadImage />
       </Form.Item>
 
-      <Form.Item label="Category" name="categoryId" required>
+      <Form.Item
+        label="Category"
+        name="categoryId"
+        rules={[{ required: true }]}
+      >
         <CategorySelector />
       </Form.Item>
 
-      <Form.Item label="Manufacturer" name="manufacturerId" required>
+      <Form.Item
+        label="Manufacturer"
+        name="manufacturerId"
+        rules={[{ required: true }]}
+      >
         <ManufacturerSelector />
       </Form.Item>
 
-      <Form.Item label="Store" name="storeId" required>
+      <Form.Item label="Store" name="storeId" rules={[{ required: true }]}>
         <StoreSelector />
       </Form.Item>
 
