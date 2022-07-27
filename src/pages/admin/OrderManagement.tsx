@@ -1,4 +1,4 @@
-import { Table, Tag, Typography } from 'antd';
+import { Button, message, Table, Tag, Typography } from 'antd';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { api } from '../../api';
@@ -47,6 +47,32 @@ export function OrderManagement() {
                 {status ? 'Đã giao hàng' : 'Chờ xác nhận'}
               </Tag>
             ),
+          },
+          {
+            title: 'Action',
+            dataIndex: 'shippingStatus',
+            render: (status, record) =>
+              status ? (
+                ''
+              ) : (
+                <Button
+                  onClick={() => {
+                    setLoading(true);
+                    api
+                      .put(`/admin/updateShippingStatus/${record.orderId}`)
+                      .then(() =>
+                        message.success('Update shipping status successfully!'),
+                      )
+                      .catch(() =>
+                        message.error('Update shipping status failed!'),
+                      )
+                      .finally(() => fetch());
+                  }}
+                  className="text-white bg-green-500 border-none rounded-lg"
+                >
+                  Done
+                </Button>
+              ),
           },
         ]}
       />
