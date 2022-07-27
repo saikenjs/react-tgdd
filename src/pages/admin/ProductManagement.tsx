@@ -72,7 +72,7 @@ export default function ProductManagement() {
               key={idx}
               className="flex flex-col justify-between rounded-md shadow-2xl"
             >
-              <ProductCard product={product} />
+              <ProductCard disabled product={product} />
               <div className="flex justify-around p-4">
                 <Button
                   className="text-white border-none rounded-lg bg-amber-500"

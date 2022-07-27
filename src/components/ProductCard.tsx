@@ -1,15 +1,18 @@
 import { capitalize } from 'lodash';
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { Product } from '../types/Product';
 
 interface Props {
   product: Product;
+  disabled?: boolean;
 }
 
-export function ProductCard({ product }: Props) {
+export function ProductCard({ product, disabled }: Props) {
   return (
-    <Link to={`/product-detail/${product.productId}`}>
+    <Link
+      className={disabled ? 'pointer-events-none' : ''}
+      to={`/product-detail/${product.productId}`}
+    >
       <div className="bg-white rounded-md p-[10px] h-full flex flex-col">
         <img className="block mb-4 aspect-square" src={product.image} />
         <span className="block my-3 text-lg grow">
