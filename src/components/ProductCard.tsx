@@ -20,14 +20,14 @@ export function ProductCard({ product, disabled }: Props) {
         </span>
         <div className="flex items-center gap-2">
           <span className="text-lg font-bold text-red-600">
-            {product.unitPrice.toLocaleString('vi-VN', {
+            {(product.salePrice || product.unitPrice).toLocaleString('vi-VN', {
               style: 'currency',
               currency: 'VND',
             })}
           </span>
           {product.salePrice !== 0 && (
             <span className="block px-1 font-bold text-red-500 bg-red-100 rounded">
-              -{product.salePrice}%
+              -{product.salePrice / product.unitPrice}%
             </span>
           )}
         </div>

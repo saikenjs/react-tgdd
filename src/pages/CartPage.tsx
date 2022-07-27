@@ -62,11 +62,13 @@ export default function CartPage() {
                 ...values,
                 orderDate: Date.now(),
                 totalPrice: cart.reduce(
-                  (acc, cur) => acc + cur.product.salePrice * cur.amount,
+                  (acc, { product, amount }) =>
+                    acc + (product.salePrice || product.unitPrice) * amount,
                   0,
                 ),
                 orderDetailList: cart.map(item => ({
                   productId: item.product.productId,
+                  unitPrice: item.product.unitPrice,
                   quantity: item.amount,
                 })),
               })
