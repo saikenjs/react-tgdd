@@ -42,6 +42,11 @@ export function OrderManagement() {
           {
             title: 'Status',
             dataIndex: 'shippingStatus',
+            filters: [
+              { text: 'Đã giao hàng', value: true },
+              { text: 'Chờ xác nhận', value: false },
+            ],
+            onFilter: (value, record) => record.shippingStatus === value,
             render: status => (
               <Tag color={status ? 'green' : 'orange'}>
                 {status ? 'Đã giao hàng' : 'Chờ xác nhận'}
