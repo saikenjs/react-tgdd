@@ -4,13 +4,16 @@ import { CategoryManagement } from './pages/admin/CategoryManagement';
 import { ManufacturerManagement } from './pages/admin/ManufacturerManagement';
 import ProductManagement from './pages/admin/ProductManagement';
 import CartPage from './pages/CartPage';
+import { CategoryPage } from './pages/CategoryPage';
 import { Home } from './pages/HomePage';
 import ProductDetailPage from './pages/ProductDetailPage';
 
 const routes: RouteObject[] = [
+  // Customer
   { path: '/', element: <Home /> },
   { path: '/cart', element: <CartPage /> },
   { path: '/product-detail/:id', element: <ProductDetailPage /> },
+  { path: '/category/:id', element: <CategoryPage /> },
   { path: '*', element: <Navigate to="/" /> },
 
   // Admin

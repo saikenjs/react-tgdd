@@ -11,7 +11,7 @@ import styled from '@emotion/styled';
 import { Layout, Menu } from 'antd';
 import { ItemType } from 'antd/lib/menu/hooks/useItems';
 import { ReactNode } from 'react';
-import { useMatch, useNavigate } from 'react-router-dom';
+import { Link, useMatch, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { BaseAtom } from '../recoil/atoms/BaseAtom';
 /*
@@ -29,7 +29,7 @@ const MenuStyled = styled(Menu)`
 
   > .ant-menu-item {
     margin: 0 !important;
-    padding: 0.8em 0.5em;
+    padding: 0.8em 1.5em;
     height: max-content;
     gap: 1em;
     border-radius: 50px 0 0 50px;
@@ -47,6 +47,8 @@ const MenuStyled = styled(Menu)`
   // Collapsed
   &.ant-menu-inline-collapsed {
     > .ant-menu-item {
+      display: flex;
+      align-items: center;
       padding: 0.8em calc(50% - 16px / 2);
     }
   }
@@ -102,10 +104,12 @@ export default function AdminLayout({ children }: Props) {
         </div>
         <div className="p-6">
           <div className="overflow-hidden">
-            <img
-              className="block object-left mb-20 h-[42px] object-cover overflow-hidden"
-              src={`/images/logo-full.png`}
-            />
+            <Link to="/">
+              <img
+                className="block object-left mb-20 h-[42px] object-cover overflow-hidden"
+                src={`/images/logo-full.png`}
+              />
+            </Link>
           </div>
         </div>
         <MenuStyled

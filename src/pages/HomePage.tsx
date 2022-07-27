@@ -12,7 +12,7 @@ import { ProductSkeleton } from '../components/skeleton/ProductSkeleton';
 import BaseLayout from '../layouts/BaseLayout';
 import { productsAtom } from '../recoil/atoms/ProductsAtom';
 
-const trendings = [
+const trend = [
   { title: 'Điện thoại', description: 'Galaxy M Series' },
   { title: 'Macbook, iMac', description: 'Mua online có quà' },
   { title: 'Tai nghe không dây', description: 'Giảm đến 50%' },
@@ -104,7 +104,7 @@ export function Home() {
           Xu hướng mua sắm
         </Typography.Title>
         <div className="flex gap-3 ">
-          {trendings.map((e, i) => (
+          {trend.map((e, i) => (
             <div
               key={i}
               className="w-[280px] h-[236px] bg-slate-50 rounded-lg relative"

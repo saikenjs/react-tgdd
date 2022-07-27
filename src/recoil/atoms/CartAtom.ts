@@ -1,6 +1,12 @@
 import { atom } from 'recoil';
+import { Product } from '../../types/Product';
 
-export const cartAtom = atom({
+interface CartItem {
+  product: Product;
+  amount: number;
+}
+
+export const cartAtom = atom<CartItem[]>({
   key: 'cart',
   default: [],
 });

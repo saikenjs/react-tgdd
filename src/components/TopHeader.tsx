@@ -1,18 +1,26 @@
 import { SearchOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { Button, Input, Typography } from 'antd';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { api } from '../api';
+import { Category } from '../types/Category';
 
-const menu = [
-  { icon: 'phone', text: 'Điện thoại' },
-  { icon: 'laptop', text: 'Laptop' },
-  { icon: 'tablet', text: 'Tablet' },
-  { icon: 'phu-kien', text: 'Phụ kiện' },
-  { icon: 'smartwatch', text: 'Smartwatch' },
-  { icon: 'watch', text: 'Đồng hồ' },
-  { icon: 'pc', text: 'PC, Máy in' },
+const fixedData = [
+  { id: 1, icon: 'phone', text: 'Điện thoại' },
+  { id: 2, icon: 'laptop', text: 'Laptop' },
+  { id: 3, icon: 'tablet', text: 'Tablet' },
+  { id: 4, icon: 'phu-kien', text: 'Phụ kiện' },
+  { id: 5, icon: 'smartwatch', text: 'Smartwatch' },
+  { id: 6, icon: 'watch', text: 'Đồng hồ' },
 ];
 
 export function TopHeader() {
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  useEffect(() => {
+    api.get('/categoryForcus').then(({ data }) => setCategories(data));
+  }, []);
+
   return (
     <div className="bg-[#ffd400] h-[114px]">
       <div className="container">
@@ -41,11 +49,23 @@ export function TopHeader() {
         </div>
 
         <div className="h-[64px] flex items-center gap-10">
-          {menu.map(({ icon, text }) => (
-            <div key={icon} className="flex gap-[5px] cursor-pointer">
-              <img className="w-5 h-5" src={`/icons/icon-${icon}.png`} />
-              <span>{text}</span>
-            </div>
+          {categories.map(e => (
+            <Link
+              to={`/category/${e.categoryId}`}
+              key={e.categoryId}
+              className="flex gap-[5px] cursor-pointer"
+            >
+              <img
+                className="w-5 h-5"
+                src={`/icons/icon-${
+                  fixedData.find(i => i.id === e.categoryId)?.icon
+                }.png`}
+              />
+              <span className="text-black">
+                {fixedData.find(i => i.id === e.categoryId)?.text ??
+                  e.categoryName}
+              </span>
+            </Link>
           ))}
         </div>
       </div>
