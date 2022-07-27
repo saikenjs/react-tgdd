@@ -1,5 +1,5 @@
 import { CloseOutlined, MinusOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Modal } from 'antd';
+import { Button, Modal, Pagination } from 'antd';
 import { useEffect, useState } from 'react';
 import { api } from '../../api';
 import { Loading } from '../../components/Loading';
@@ -14,7 +14,7 @@ export default function ProductManagement() {
   const [loading, setLoading] = useState(false);
   const [product, setProduct] = useState<Product>();
 
-  const { fetch, products } = useProducts();
+  const { fetch, products, pagination } = useProducts();
 
   useEffect(() => {
     fetch();
@@ -68,7 +68,10 @@ export default function ProductManagement() {
 
         <div className="grid grid-cols-5 gap-8">
           {products.map((product, idx) => (
-            <div key={idx} className="flex flex-col rounded-md shadow-2xl">
+            <div
+              key={idx}
+              className="flex flex-col justify-between rounded-md shadow-2xl"
+            >
               <ProductCard product={product} />
               <div className="flex justify-around p-4">
                 <Button
@@ -90,6 +93,14 @@ export default function ProductManagement() {
             </div>
           ))}
         </div>
+        <Pagination
+          className="flex justify-end ml-auto mt-7"
+          current={pagination?.currentPage}
+          total={(pagination?.totalPage ?? 1) * 10}
+          onChange={page => {
+            fetch({ page });
+          }}
+        />
       </div>
     </AdminLayout>
   );
