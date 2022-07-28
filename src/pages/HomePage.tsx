@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import { Empty, Typography } from 'antd';
 import { sampleSize } from 'lodash';
 import { useEffect, useState } from 'react';
@@ -10,6 +11,7 @@ import { ProductSkeleton } from '../components/skeleton/ProductSkeleton';
 import BaseLayout from '../layouts/BaseLayout';
 import { filterAtom } from '../recoil/atoms/FilterAtom';
 import { productsAtom } from '../recoil/atoms/ProductsAtom';
+import { Product } from '../types/Product';
 
 const trend = [
   { title: 'Điện thoại', description: 'Galaxy M Series' },
@@ -25,7 +27,16 @@ export function Home() {
   const filter = useRecoilValue(filterAtom);
 
   const [activeCategory, setActiveCategory] = useState(0);
-  const sampleProducts = sampleSize(products, 20);
+
+  const [saleProducts, setSaleProducts] = useState<Product[]>([]);
+  const [sale99Products, setSale99Products] = useState<Product[]>([]);
+
+  const sampleProducts =
+    activeCategory === 2
+      ? saleProducts
+      : activeCategory === 3
+      ? sale99Products
+      : sampleSize(products, 20);
 
   useEffect(() => {
     if (filter.location) {
@@ -46,6 +57,11 @@ export function Home() {
         });
     }
   }, [filter.location, setProducts]);
+
+  useEffect(() => {
+    api.get('/productSale').then(({ data }) => setSaleProducts(data));
+    api.get('/productSale99').then(({ data }) => setSale99Products(data));
+  }, []);
 
   return (
     <BaseLayout>
