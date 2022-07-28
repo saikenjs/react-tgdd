@@ -15,7 +15,7 @@ export function CategoryPage() {
   const filter = useRecoilValue(filterAtom);
 
   useEffect(() => {
-    if (filter.location?.id !== -1) {
+    if (filter.location && filter.location.id !== -1) {
       api
         .get(`productByLocation`, {
           params: {

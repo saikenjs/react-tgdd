@@ -27,7 +27,7 @@ export function ProductCard({ product, disabled }: Props) {
           </span>
           {product.salePrice !== 0 && (
             <span className="block px-1 font-bold text-red-500 bg-red-100 rounded">
-              -{round((product.salePrice * 100) / product.unitPrice, 0)}%
+              -{round((1 - product.salePrice * 100) / product.unitPrice, 0)}%
             </span>
           )}
         </div>

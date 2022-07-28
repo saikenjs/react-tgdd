@@ -59,7 +59,7 @@ export function TopHeader() {
               className="w-40 bg-[#ffd400]"
               placeholder="Chọn vị trí.."
               showSearch
-              defaultValue={filter.location}
+              value={filter.location?.id}
               onChange={(value, option) =>
                 setFilter(prev => ({
                   ...prev,

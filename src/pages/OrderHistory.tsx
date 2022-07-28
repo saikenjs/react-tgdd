@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { PhoneFilled } from '@ant-design/icons';
 import styled from '@emotion/styled';
-import { Button, Form, Input, Table, Typography } from 'antd';
+import { Button, Empty, Form, Input, Table, Typography } from 'antd';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
-import { api } from '../../api';
-import BaseLayout from '../../layouts/BaseLayout';
-import { Product } from '../../types/Product';
+import { api } from '../api';
+import BaseLayout from '../layouts/BaseLayout';
+import { Product } from '../types/Product';
 
 const Wrapper = styled.div`
   background: url(https://cdn.tgdd.vn/mwgcart/orderhistory/images/bg.png);
@@ -54,7 +54,7 @@ export function OrderHistory() {
     return res;
   };
 
-  const orderRows = convert(orderHistories);
+  const orderRows = orderHistories ? convert(orderHistories) : null;
 
   return (
     <BaseLayout>
@@ -101,7 +101,7 @@ export function OrderHistory() {
             </div>
           )}
 
-          {orderHistories && (
+          {orderRows && orderRows.length !== 0 ? (
             <div className="flex flex-col pt-6">
               <div className="pl-6">
                 Chào <strong>{orderHistories[0].customerName}</strong> -{' '}
@@ -157,6 +157,15 @@ export function OrderHistory() {
                     },
                   ]}
                 />
+              </div>
+            </div>
+          ) : (
+            <div className="w-full p-6 mt-4 text-lg bg-white border border-gray-400 border-solid rounded-2xl">
+              <Typography>
+                Quý khách chưa từng mua hàng ở hệ thống của chúng tôi !
+              </Typography>
+              <div>
+                <Empty />
               </div>
             </div>
           )}
