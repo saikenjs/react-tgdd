@@ -1,9 +1,10 @@
 import { SearchOutlined, ShoppingCartOutlined } from '@ant-design/icons';
-import { Badge, Button, Input, Typography } from 'antd';
+import { Badge, Button, Input, Select, Typography } from 'antd';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { api } from '../api';
+import { locations } from '../data/location';
 import { cartAtom } from '../recoil/atoms/CartAtom';
 import { Category } from '../types/Category';
 
@@ -28,9 +29,22 @@ export function TopHeader() {
     <div className="bg-[#ffd400] h-[114px]">
       <div className="container">
         <div className="h-[50px] flex items-end justify-between">
-          <Link to="/">
-            <img className="h-[40px] w-[228px]" src="/images/logo.png" />
-          </Link>
+          <div className="flex items-center gap-4">
+            <Link to="/">
+              <img className="h-[40px] w-[228px]" src="/images/logo.png" />
+            </Link>
+            <Select
+              className="w-40"
+              showSearch
+              filterOption={(input, option) =>
+                option?.locationName
+                  .toLocaleLowerCase()
+                  .includes(input.toLowerCase()) ?? true
+              }
+              options={locations}
+              fieldNames={{ label: 'locationName', value: 'locationId' }}
+            />
+          </div>
 
           <Input
             className="w-[300px] h-[40px] border-none rounded"

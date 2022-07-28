@@ -78,8 +78,12 @@ export function UpsertProduct({ product, onUpserted }: Props) {
       <Form.Item label="Price" name="unitPrice" rules={[{ required: true }]}>
         <Input type="number" suffix="VNĐ" className="w-80" />
       </Form.Item>
-      <Form.Item label="Discount" name="salePrice" rules={[{ required: true }]}>
-        <Input type="number" suffix="%" className="w-80" />
+      <Form.Item
+        label="Sale Price"
+        name="salePrice"
+        rules={[{ required: true }]}
+      >
+        <Input type="number" suffix="VND" className="w-80" />
       </Form.Item>
 
       <Form.Item

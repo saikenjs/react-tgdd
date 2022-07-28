@@ -1,4 +1,4 @@
-import { capitalize } from 'lodash';
+import { capitalize, round } from 'lodash';
 import { Link } from 'react-router-dom';
 import { Product } from '../types/Product';
 
@@ -27,7 +27,7 @@ export function ProductCard({ product, disabled }: Props) {
           </span>
           {product.salePrice !== 0 && (
             <span className="block px-1 font-bold text-red-500 bg-red-100 rounded">
-              -{product.salePrice / product.unitPrice}%
+              -{round((product.salePrice * 100) / product.unitPrice, 0)}%
             </span>
           )}
         </div>
