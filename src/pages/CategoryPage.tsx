@@ -29,8 +29,6 @@ export function CategoryPage() {
     }
   }, [filter.category?.id, filter.location, id]);
 
-  console.log(filter);
-
   return (
     <BaseLayout>
       <div className="container flex gap-2 mt-4 mb-8 overflow-hidden h-52">

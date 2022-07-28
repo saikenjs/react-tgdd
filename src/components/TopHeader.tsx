@@ -3,7 +3,7 @@ import { SearchOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import styled from '@emotion/styled';
 import { Badge, Button, Input, Select, Typography } from 'antd';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { api } from '../api';
 import { locations } from '../data/location';
@@ -40,6 +40,8 @@ export function TopHeader() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [filter, setFilter] = useRecoilState(filterAtom);
   const cart = useRecoilValue(cartAtom);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     api.get('/categoryForcus').then(({ data }) => setCategories(data));
@@ -84,6 +86,12 @@ export function TopHeader() {
             className="w-[300px] h-[40px] border-none rounded"
             placeholder="Bạn tìm gì ..."
             suffix={<SearchOutlined className="text-lg text-slate-500" />}
+            onChange={({ target: { value } }) => {
+              setFilter(prev => ({ ...prev, query: value }));
+            }}
+            onKeyDown={e => {
+              if (e.key === 'Enter') navigate('/search');
+            }}
           />
 
           <div className="flex gap-5">
