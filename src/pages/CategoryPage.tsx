@@ -1,18 +1,35 @@
+import { Typography } from 'antd';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import { api } from '../api';
 import { FilterArea } from '../components/FilterArea';
 import { GridProduct } from '../components/GridProduct';
 import BaseLayout from '../layouts/BaseLayout';
+import { filterAtom } from '../recoil/atoms/FilterAtom';
 import { Product } from '../types/Product';
 
 export function CategoryPage() {
   const { id } = useParams();
   const [products, setProducts] = useState<Product[]>();
+  const filter = useRecoilValue(filterAtom);
 
   useEffect(() => {
-    api.get(`/productByCategory/${id}`).then(({ data }) => setProducts(data));
-  }, [id]);
+    if (filter.location?.id !== -1) {
+      api
+        .get(`productByLocation`, {
+          params: {
+            locationId: filter.location?.id,
+            categoryId: filter.category?.id,
+          },
+        })
+        .then(({ data }) => setProducts(data));
+    } else {
+      api.get(`/productByCategory/${id}`).then(({ data }) => setProducts(data));
+    }
+  }, [filter.category?.id, filter.location, id]);
+
+  console.log(filter);
 
   return (
     <BaseLayout>
@@ -26,7 +43,10 @@ export function CategoryPage() {
 
       <FilterArea />
 
-      <GridProduct products={products ?? []} />
+      <Typography.Title className="container">
+        Danh mục {filter.category?.name}
+      </Typography.Title>
+      <GridProduct products={products} />
     </BaseLayout>
   );
 }

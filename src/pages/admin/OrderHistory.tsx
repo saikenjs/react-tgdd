@@ -55,7 +55,6 @@ export function OrderHistory() {
   };
 
   const orderRows = convert(orderHistories);
-  console.log({ orderRows });
 
   return (
     <BaseLayout>

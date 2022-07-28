@@ -1,12 +1,31 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { SearchOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import styled from '@emotion/styled';
 import { Badge, Button, Input, Select, Typography } from 'antd';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { api } from '../api';
 import { locations } from '../data/location';
 import { cartAtom } from '../recoil/atoms/CartAtom';
+import { filterAtom } from '../recoil/atoms/FilterAtom';
 import { Category } from '../types/Category';
+
+const Wrapper = styled.div`
+  display: flex;
+  gap: 10px;
+  .ant-select {
+    .ant-select-selector {
+      background-color: #ffac0a !important;
+      color: black !important;
+      border: none;
+      border-radius: 3px;
+    }
+    .ant-select-selection-placeholder {
+      color: black;
+    }
+  }
+`;
 
 const fixedData = [
   { id: 1, icon: 'phone', text: 'Điện thoại' },
@@ -19,6 +38,7 @@ const fixedData = [
 
 export function TopHeader() {
   const [categories, setCategories] = useState<Category[]>([]);
+  const [filter, setFilter] = useRecoilState(filterAtom);
   const cart = useRecoilValue(cartAtom);
 
   useEffect(() => {
@@ -29,22 +49,36 @@ export function TopHeader() {
     <div className="bg-[#ffd400] h-[114px]">
       <div className="container">
         <div className="h-[50px] flex items-end justify-between">
-          <div className="flex items-center gap-4">
+          <Wrapper className="flex items-center gap-4">
             <Link to="/">
               <img className="h-[40px] w-[228px]" src="/images/logo.png" />
             </Link>
             <Select
-              className="w-40"
+              className="w-40 bg-[#ffd400]"
+              placeholder="Chọn vị trí.."
               showSearch
+              defaultValue={filter.location}
+              onChange={(value, option) =>
+                setFilter(prev => ({
+                  ...prev,
+                  location: {
+                    id: (option as any).locationId,
+                    name: (option as any).locationName,
+                  },
+                }))
+              }
               filterOption={(input, option) =>
                 option?.locationName
                   .toLocaleLowerCase()
                   .includes(input.toLowerCase()) ?? true
               }
-              options={locations}
+              options={[
+                { locationName: 'Tất cả', locationId: -1 },
+                ...locations,
+              ]}
               fieldNames={{ label: 'locationName', value: 'locationId' }}
             />
-          </div>
+          </Wrapper>
 
           <Input
             className="w-[300px] h-[40px] border-none rounded"
@@ -74,6 +108,12 @@ export function TopHeader() {
             <Link
               to={`/category/${e.categoryId}`}
               key={e.categoryId}
+              onClick={() =>
+                setFilter(prev => ({
+                  ...prev,
+                  category: { id: e.categoryId, name: e.categoryName },
+                }))
+              }
               className="flex gap-[5px] cursor-pointer"
             >
               <img

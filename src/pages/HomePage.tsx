@@ -1,13 +1,14 @@
-import { Typography } from 'antd';
+import { Empty, Typography } from 'antd';
 import { sampleSize } from 'lodash';
 import { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { api } from '../api';
 import { HeroBanner } from '../components/HeroBanner';
 import { HeroCarousel } from '../components/HeroCarousel';
 import { ProductCard } from '../components/ProductCard';
 import { ProductSkeleton } from '../components/skeleton/ProductSkeleton';
 import BaseLayout from '../layouts/BaseLayout';
+import { filterAtom } from '../recoil/atoms/FilterAtom';
 import { productsAtom } from '../recoil/atoms/ProductsAtom';
 
 const trend = [
@@ -21,18 +22,30 @@ const tabs = ['Cho bạn', 'Sinh nhật 18', 'Chỉ giảm online', 'Deal từ 9
 
 export function Home() {
   const [products, setProducts] = useRecoilState(productsAtom);
+  const filter = useRecoilValue(filterAtom);
 
   const [activeCategory, setActiveCategory] = useState(0);
   const sampleProducts = sampleSize(products, 20);
 
   useEffect(() => {
-    api
-      .get('/productForCus')
-      .then(({ data }) => setProducts(data))
-      .catch(err => {
-        throw new Error(err);
-      });
-  }, [setProducts]);
+    if (filter.location) {
+      api
+        .get(`productByLocation`, {
+          params: {
+            locationId: filter.location.id,
+            categoryId: -1,
+          },
+        })
+        .then(({ data }) => setProducts(data));
+    } else {
+      api
+        .get('/productForCus')
+        .then(({ data }) => setProducts(data))
+        .catch(err => {
+          throw new Error(err);
+        });
+    }
+  }, [filter.location, setProducts]);
 
   return (
     <BaseLayout>
@@ -92,8 +105,9 @@ export function Home() {
           {sampleProducts.map((product, idx) => (
             <ProductCard key={idx} product={product} />
           ))}
-          {sampleProducts.length === 0 &&
+          {!sampleProducts &&
             [1, 2, 3, 4, 5].map(idx => <ProductSkeleton key={idx} />)}
+          {sampleProducts.length === 0 && <Empty className="block mx-auto" />}
         </div>
       </section>
     </BaseLayout>
