@@ -39,9 +39,11 @@ export function TopHeader() {
           />
 
           <div className="flex gap-5">
-            <Button className="bg-[#ffac0a] border-none rounded h-10">
-              Lịch sử đơn hàng
-            </Button>
+            <Link to="order-history">
+              <Button className="bg-[#ffac0a] border-none rounded h-10">
+                Lịch sử đơn hàng
+              </Button>
+            </Link>
             <Link to="/cart">
               <Badge count={cart.reduce((acc, cur) => acc + cur.amount, 0)}>
                 <Button className="bg-[#ffac0a] border-none rounded h-10 flex items-center gap-2">
