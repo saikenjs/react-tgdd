@@ -1,6 +1,5 @@
 import { Typography } from 'antd';
 import { ReactNode } from 'react';
-import { Link } from 'react-router-dom';
 import { TopHeader } from '../components/TopHeader';
 
 interface Props {
@@ -74,7 +73,6 @@ export default function BaseLayout({ children }: Props) {
         </div>
 
         <div className="py-8 text-xs bg-gray-200">
-          <Link to="/admin">admin</Link>
           <div className="container">
             © 2018. Công ty cổ phần Thế Giới Di Động. GPDKKD: 0303217354 do sở
             KH & ĐT TP.HCM cấp ngày 02/01/2007. GPMXH: 238/GP-BTTTT do Bộ Thông
