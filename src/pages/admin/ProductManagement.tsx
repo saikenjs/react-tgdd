@@ -118,7 +118,6 @@ export default function ProductManagement() {
               </div>
             ))}
         </div>
-        <span>{products.length / 20}</span>
         <Pagination
           className="flex justify-end ml-auto mt-7"
           current={currentPage}

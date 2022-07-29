@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { api } from '../api';
-import { FilterArea } from '../components/FilterArea';
+// import { FilterArea } from '../components/FilterArea';
 import { GridProduct } from '../components/GridProduct';
 import BaseLayout from '../layouts/BaseLayout';
 import { filterAtom } from '../recoil/atoms/FilterAtom';
@@ -39,7 +39,7 @@ export function CategoryPage() {
         </div>
       </div>
 
-      <FilterArea />
+      {/* <FilterArea /> */}
 
       <Typography.Title className="container">
         Danh mục {filter.category?.name}
