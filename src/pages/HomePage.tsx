@@ -93,7 +93,7 @@ export function Home() {
           {trend.map((e, i) => (
             <div
               key={i}
-              className="w-[280px] h-[236px] bg-slate-50 rounded-lg relative"
+              className="w-[280px] h-[236px] bg-slate-50 rounded-lg relative overflow-hidden"
             >
               <img
                 className="absolute inset-0 object-cover w-[280px] h-[160px]"
