@@ -14,10 +14,27 @@ import { productsAtom } from '../recoil/atoms/ProductsAtom';
 import { Product } from '../types/Product';
 
 const trend = [
-  { title: 'Điện thoại', description: 'Galaxy M Series' },
-  { title: 'Macbook, iMac', description: 'Mua online có quà' },
-  { title: 'Tai nghe không dây', description: 'Giảm đến 50%' },
-  { title: 'Smartwatch', description: 'Giảm đến 50%++' },
+  {
+    title: 'Samsung Galaxy M51',
+    description: 'Galaxy M Series',
+    image:
+      'https://i.ibb.co/LSXSdTH/1626083876-dien-thoai-samsung-galaxy-m51-den.jpg',
+  },
+  {
+    title: 'Tab P11 Plus',
+    description: 'Mua online có quà',
+    image: 'https://i.ibb.co/PWCQd96/photo-1-16322164759171300466163.jpg',
+  },
+  {
+    title: 'Apple AirPods Pro 2021',
+    description: 'Giảm đến 50%',
+    image: 'https://i.ibb.co/HVM9h5T/tai-nghe-airpods-pro-didongviet-1-1-1.jpg',
+  },
+  {
+    title: 'Apple Watch Series 7',
+    description: 'Giảm đến 50%++',
+    image: 'https://i.ibb.co/W0Q2rTb/apple-watch-s7-lte-41mm-vang-1.jpg',
+  },
 ];
 
 const tabs = ['Cho bạn', 'Sinh nhật 18', 'Chỉ giảm online', 'Deal từ 99k'];
@@ -79,8 +96,8 @@ export function Home() {
               className="w-[280px] h-[236px] bg-slate-50 rounded-lg relative"
             >
               <img
-                className="absolute inset-0"
-                src={`/images/trending-item-${i}.png`}
+                className="absolute inset-0 object-cover w-[280px] h-[160px]"
+                src={e.image}
               />
               <div className="absolute flex flex-col text-lg bottom-3 left-[18px]">
                 <span>{e.title}</span>
