@@ -10,6 +10,7 @@ import { CategoryPage } from './pages/CategoryPage';
 import { Home } from './pages/HomePage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import { SearchResultPage } from './pages/SearchResultPage';
+import { StoreManagement } from './pages/admin/StoreManagement';
 
 const routes: RouteObject[] = [
   // Customer
@@ -22,14 +23,15 @@ const routes: RouteObject[] = [
   { path: '*', element: <Navigate to="/" /> },
 
   // Admin
-  { path: '/admin/*', element: <AdminHome /> },
   { path: '/admin/product-management', element: <ProductManagement /> },
   { path: '/admin/category-management', element: <CategoryManagement /> },
   { path: '/admin/order-management', element: <OrderManagement /> },
+  { path: '/admin/store-management', element: <StoreManagement /> },
   {
     path: '/admin/manufacturer-management',
     element: <ManufacturerManagement />,
   },
+  { path: '/admin/*', element: <AdminHome /> },
 ];
 
 export function App() {
