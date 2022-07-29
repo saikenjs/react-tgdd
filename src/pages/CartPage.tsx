@@ -30,13 +30,15 @@ export default function CartPage() {
                   <span>Số lượng: </span>
                   <InputNumber
                     onChange={value =>
-                      setCart(cart =>
-                        cart.map(e =>
-                          e.product.productId === item.product.productId
-                            ? { ...e, amount: value }
-                            : e,
-                        ),
-                      )
+                      value < item.product.quantity
+                        ? setCart(cart =>
+                            cart.map(e =>
+                              e.product.productId === item.product.productId
+                                ? { ...e, amount: value }
+                                : e,
+                            ),
+                          )
+                        : message.error('Số lượng sản phẩm trong kho không đủ.')
                     }
                     value={item.amount}
                     min={0}
