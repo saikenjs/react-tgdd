@@ -6,6 +6,7 @@ import { Product } from '../types/Product';
 
 interface FetchProps {
   page?: number;
+  limit?: number;
 }
 
 interface Pagination {
@@ -18,10 +19,10 @@ export function useProducts() {
 
   const [pagination, setPagination] = useState<Pagination>();
 
-  const fetch = async ({ page = 1 }: FetchProps = {}) => {
+  const fetch = async ({ page = 1, limit = 10 }: FetchProps = {}) => {
     api
       .get<{ items: Product[] } & Pagination>(
-        `/admin/product?limit=10&page=${page}`,
+        `/admin/product?limit=${limit}&page=${page}`,
       )
       .then(({ data }) => {
         setProducts(data.items);

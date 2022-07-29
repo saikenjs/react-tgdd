@@ -2,6 +2,7 @@
 import { Empty, Typography } from 'antd';
 import { sampleSize } from 'lodash';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { api } from '../api';
 import { HeroBanner } from '../components/HeroBanner';
@@ -15,22 +16,26 @@ import { Product } from '../types/Product';
 
 const trend = [
   {
+    id: 188,
     title: 'Samsung Galaxy M51',
     description: 'Galaxy M Series',
     image:
       'https://i.ibb.co/LSXSdTH/1626083876-dien-thoai-samsung-galaxy-m51-den.jpg',
   },
   {
+    id: 39,
     title: 'Tab P11 Plus',
     description: 'Mua online có quà',
     image: 'https://i.ibb.co/PWCQd96/photo-1-16322164759171300466163.jpg',
   },
   {
+    id: 187,
     title: 'Apple AirPods Pro 2021',
     description: 'Giảm đến 50%',
     image: 'https://i.ibb.co/HVM9h5T/tai-nghe-airpods-pro-didongviet-1-1-1.jpg',
   },
   {
+    id: 69,
     title: 'Apple Watch Series 7',
     description: 'Giảm đến 50%++',
     image: 'https://i.ibb.co/W0Q2rTb/apple-watch-s7-lte-41mm-vang-1.jpg',
@@ -91,21 +96,20 @@ export function Home() {
         </Typography.Title>
         <div className="flex gap-3 ">
           {trend.map((e, i) => (
-            <div
-              key={i}
-              className="w-[280px] h-[236px] bg-slate-50 rounded-lg relative overflow-hidden"
-            >
-              <img
-                className="absolute inset-0 object-cover w-[280px] h-[160px]"
-                src={e.image}
-              />
-              <div className="absolute flex flex-col text-lg bottom-3 left-[18px]">
-                <span>{e.title}</span>
-                <span className="text-blue-600 cursor-pointer">
-                  {e.description}
-                </span>
+            <Link to={`/product-detail/${e.id}`} key={i}>
+              <div className="w-[280px] h-[236px] bg-slate-50 rounded-lg relative overflow-hidden">
+                <img
+                  className="absolute inset-0 object-cover w-[280px] h-[160px]"
+                  src={e.image}
+                />
+                <div className="absolute flex flex-col text-lg bottom-3 left-[18px]">
+                  <span>{e.title}</span>
+                  <span className="text-blue-600 cursor-pointer">
+                    {e.description}
+                  </span>
+                </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

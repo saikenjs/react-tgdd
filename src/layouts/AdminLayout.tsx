@@ -1,6 +1,5 @@
 import {
   BankOutlined,
-  HomeOutlined,
   LeftOutlined,
   MobileOutlined,
   RightOutlined,
@@ -115,11 +114,13 @@ export default function AdminLayout({ children }: Props) {
           mode="inline"
           selectedKeys={[match?.params.module ?? '']}
           items={genSiderItems([
-            {
-              icon: <HomeOutlined />,
-              label: 'Home',
-              path: '/admin',
-            },
+            /*
+             * {
+             *   icon: <HomeOutlined />,
+             *   label: 'Home',
+             *   path: '/admin',
+             * },
+             */
             {
               icon: <MobileOutlined />,
               label: 'Product Management',

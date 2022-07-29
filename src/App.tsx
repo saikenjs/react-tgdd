@@ -1,5 +1,4 @@
 import { RouteObject, useRoutes, Navigate } from 'react-router-dom';
-import AdminHome from './pages/admin/AdminHome';
 import { CategoryManagement } from './pages/admin/CategoryManagement';
 import { ManufacturerManagement } from './pages/admin/ManufacturerManagement';
 import { OrderHistory } from './pages/OrderHistory';
@@ -31,7 +30,7 @@ const routes: RouteObject[] = [
     path: '/admin/manufacturer-management',
     element: <ManufacturerManagement />,
   },
-  { path: '/admin/*', element: <AdminHome /> },
+  { path: '/admin/*', element: <ProductManagement /> },
 ];
 
 export function App() {
